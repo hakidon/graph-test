@@ -4,7 +4,7 @@ import SimpleNodeGraph from './component/SimpleNodeGraph';
 const App = () => {
   return (
     <div>
-      <h1>Simple Node Graph</h1>
+      <h1>Connection Node Graph</h1>
       <SimpleNodeGraph />
     </div>
   );

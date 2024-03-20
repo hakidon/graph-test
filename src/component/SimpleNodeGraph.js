@@ -116,7 +116,7 @@ function SimpleNodeGraph() {
             
             closeUpdatedLinks.forEach(link => {
                 const newFiltered = Graph.graphData().links.filter(l => l.source.id !== link.source || l.target.id !== link.target);
-                console.log(newFiltered);
+                // console.log(newFiltered);
                 Graph.graphData({
                     nodes: Graph.graphData().nodes,
                     links: newFiltered
@@ -129,7 +129,7 @@ function SimpleNodeGraph() {
             };
         }
 
-        console.log(Graph.graphData().links);
+        // console.log(Graph.graphData().links);
 
         // console.log("date")
         // console.log(updateData)
@@ -139,14 +139,40 @@ function SimpleNodeGraph() {
       function removeNode(nodeId) {
         let { nodes, links } = Graph.graphData();
         links = links.filter(l => l.source.id !== nodeId && l.target.id !== nodeId);
-        console.log(links); // Remove links attached to node
+        // console.log(links); // Remove links attached to node
         nodes = nodes.filter(n => n.id !== nodeId); // Remove node
         Graph.graphData({ nodes, links });
       }
+
+      // Additional code for making the graph responsive
+      const resizeGraph = () => {
+        Graph.width(graphRef.current.clientWidth);
+        Graph.height(graphRef.current.clientHeight);
+        Graph.refresh();
+      };
+
+      window.addEventListener('resize', resizeGraph);
+      resizeGraph(); // Initial resize
+
+      return () => {
+        window.removeEventListener('resize', resizeGraph);
+      };
     }
   }, [data]);
 
-  return <div ref={graphRef} style={{ width: '100%', height: '100vh' }} />;
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        width: '100%',
+        height: '60vh',
+      }}
+    >
+      <div ref={graphRef} style={{ width: '105%', height: '100%' }} />
+    </div>
+  );
 }
-
 export default SimpleNodeGraph;
